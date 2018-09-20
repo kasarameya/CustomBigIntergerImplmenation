@@ -198,7 +198,6 @@ public class Num implements Comparable<Num> {
                 carry = (a.arr[i] * b.arr[j]) / base;
                 index++;
             }
-
         }
 
         if (carry > 0) {
@@ -347,9 +346,9 @@ public class Num implements Comparable<Num> {
     }
 
     public static void main(String[] args) {
-        Num x = new Num(00010101000);
+        Num x = new Num(25);
         //x.printList();
-        //Num y = new Num(4);
+        Num y = new Num(25);
         //y.printList();
 
         //System.out.println(y.compareTo(x));
@@ -359,15 +358,15 @@ public class Num implements Comparable<Num> {
         //Num c = Num.by2(x);
         //c.printList();
 
-        //Num d = Num.product(x,y);
-        //d.printList();
+        Num d = Num.product(x,y);
+        d.printList();
 
         //Num p = Num.divide(x,y);
         //p.printList();
 
         //Num s = Num.squareRoot(x);
         //s.printList();
-        System.out.println(x.toString());
+        //System.out.println(x.toString());
 
 
 
