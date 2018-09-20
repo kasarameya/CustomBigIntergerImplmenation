@@ -324,7 +324,12 @@ public class Num implements Comparable<Num> {
 
     // return a%b
     public static Num mod(Num a, Num b) {
-        return null;
+
+        Num quotient = divide(a,b);
+        Num answer = product(quotient,b);
+        Num remainder = subtract(a,answer);
+
+        return remainder;
     }
 
     // Evaluate an expression in postfix and return resulting number
