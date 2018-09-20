@@ -194,17 +194,21 @@ public class Num implements Comparable<Num> {
         for (int i = 0; i < a.len; i++) {
             index = i;
             for (int j = 0; j < b.len; j++) {
-                result[index] = result[index] + ((a.arr[i] * b.arr[j]) + carry) % base;
-                carry = (a.arr[i] * b.arr[j]) / base;
+                long x=result[index]+ (a.arr[i] * b.arr[j]) + carry;
+                result[index] = x % base;
+                carry = x / base;
                 index++;
             }
-
+            if (carry > 0) {
+                //temp += carry;
+                result[index] = carry;
+                carry=0;
+            }
         }
 
         if (carry > 0) {
             //temp += carry;
             result[index] = carry;
-            index--;
         }
 
 
