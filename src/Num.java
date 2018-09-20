@@ -526,7 +526,3 @@ public class Num implements Comparable<Num> {
         return flag;
     }
 }
-
-
-
-
