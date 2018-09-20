@@ -3,7 +3,7 @@ import java.util.List;
 //Shreyash has made a test commit and push to his branch!
 public class Num implements Comparable<Num> {
 
-    static long defaultBase = 10;  // Change as needed
+    static long defaultBase = 8;  // Change as needed
     static long base = defaultBase;  // Change as needed
     long[] arr;  // array to store arbitrarily large integers
     boolean isNegative;  // boolean flag to represent negative numbers
@@ -12,14 +12,12 @@ public class Num implements Comparable<Num> {
 
     //BigInteger big = new BigInteger();
     public Num() {
-        this.arr = null;
-        this.len = 0;
-        this.isNegative = false;
     }
 
     //TODO Remove list usage
     public Num(long x) {
-        List<Long> a = new ArrayList<>();
+        this(x,defaultBase);
+        /*List<Long> a = new ArrayList<>();
         long n = x;
         if (n < 0) {
             this.isNegative = true;
@@ -44,7 +42,27 @@ public class Num implements Comparable<Num> {
                 index++;
             }
         }
-        this.len = arr.length;
+        this.len = arr.length;*/
+    }
+
+    public Num (long number, long newBase){
+      this.base = newBase;
+      if(number < 0){
+          this.isNegative = true;
+          number *= -1;
+      }
+      this.arr = new long[100];
+      if (number == 0){
+          this.len = 1;
+          return;
+      }
+      int index = 0;
+      while (number > 0){
+          this.arr[index++] = number%this.base;
+          this.len++;
+          number /= this.base;
+      }
+
     }
 
     //TODO
@@ -172,6 +190,8 @@ public class Num implements Comparable<Num> {
         Num answer = new Num();
         answer.arr = removeTrailingZeros(result);
         answer.len = answer.arr.length;
+        answer.base = a.base;
+        answer.isNegative = a.isNegative ^ b.isNegative;
         return answer;
     }
 
@@ -280,7 +300,14 @@ public class Num implements Comparable<Num> {
 
     // Use divide and conquer
     public static Num power(Num a, long n) {
-        return null;
+        if (n == 0) {
+            return new Num(1);
+        }
+        Num p = power(product(a, a), n / 2);
+        if (n % 2 == 0)
+            return p;
+        else
+            return product(a, new Num(n));
     }
 
     // return a%b
@@ -288,9 +315,9 @@ public class Num implements Comparable<Num> {
 
         Num quotient = divide(a,b);
         Num answer = product(quotient,b);
-        Num remainder = subtract(a,answer);
+        Num rem = subtract(a,answer);
 
-        return remainder;
+        return rem;
     }
 
     // Evaluate an expression in postfix and return resulting number
@@ -308,14 +335,30 @@ public class Num implements Comparable<Num> {
     }
 
     public static void main(String[] args) {
-        Num x = new Num(100);
+        //Num x = new Num(100);
         //x.printList();
-        Num y = new Num(40);
+        /*Num x = new Num(2);
+        Num p = power(x,8);
+        p.printList();*/
+
+        /*Num x = new Num(47,8);
+        x.printList();*/
+        Num x = new Num(9,8);
+        x.printList();
+        System.out.println("X: "+ x.base());
+        Num z = x.convertBase(10);
+        System.out.println("after convert base");
+        z.printList();
+
+        Num y = new Num(4);
+       // Num z = product(x,y);
+        //z.printList();
+        //y.printList();
         //y.printList();
 
         //System.out.println(y.compareTo(x));
-        Num z = Num.subtract(x,y);
-        z.printList();
+        //Num z = Num.subtract(x,y);
+        //z.printList();
 
         //Num c = Num.by2(x);
         //c.printList();
@@ -328,7 +371,7 @@ public class Num implements Comparable<Num> {
 
         //Num s = Num.squareRoot(x);
         //s.printList();
-        System.out.println(x.toString());
+        //System.out.println(x.toString());
 
 
 
@@ -406,10 +449,18 @@ public class Num implements Comparable<Num> {
     }
 
     // Return number equal to "this" number, in base=newBase
-    public Num convertBase(int newBase) {
-        List<Long> digits = new ArrayList<>();
+    public Num convertBase(long newBase) {
+        int i = this.len - 1;
+        Num temp =  new Num(this.arr[i],newBase);
+        while (i >0){
+            Num b=new Num(this.base,newBase);
+          
+            temp = add(product(temp,b),new Num(this.arr[i-1],newBase));
+          /*  temp.printList();*/
+            i--;
+        }
 
-        return null;
+        return temp;
     }
 
 
