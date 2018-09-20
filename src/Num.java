@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
+
 //Shreyash has made a test commit and push to his branch!
 public class Num implements Comparable<Num> {
 
@@ -49,12 +51,13 @@ public class Num implements Comparable<Num> {
 
     //TODO
     public Num(String s) {
-    /*    this.len = s.length();
+        this.len = s.length();
         arr = new long[len];
         for(int i = len - 1 ; i >= 0; i--)
         {
             arr[len - i - 1] = (long) (s.charAt(i) - '0');
-        }*/
+        }
+
     }
     public static Num add(Num a, Num b) {
         Num answer = new Num();
@@ -293,11 +296,74 @@ public class Num implements Comparable<Num> {
         return remainder;
     }
 
+    public static long convertToLong(Num a)
+    {
+    
+       return 0;
+    }
+
     // Evaluate an expression in postfix and return resulting number
     // Each string is one of: "*", "+", "-", "/", "%", "^", "0", or
     // a number: [1-9][0-9]*.  There is no unary minus operator.
     public static Num evaluatePostfix(String[] expr) {
-        return null;
+
+        //create a operandStack
+        Stack<Num> operandStack = new Stack<>();
+
+        // Scan all characters one by one
+        for(int i = 0; i < expr.length; i++)
+        {
+            String c = expr[i];
+
+            if(c.equals(" "))
+                continue;
+                // If the scanned character is an operator, pop two
+                // elements from operatorStack apply the operator
+            else
+                if(c.equals("*") || c.equals("+") || c.equals("-") || c.equals("/") || c.equals("%") || c.equals("^"))
+                {
+                    Num val1 = operandStack.pop();
+                    Num val2 = operandStack.pop();
+                    switch(c)
+                    {
+                        case "*":
+                            operandStack.push(product(val2,val1));
+                            break;
+
+                        case "+":
+                            operandStack.push(add(val2,val1));
+                            break;
+
+                        case "-":
+                            operandStack.push(subtract(val2,val1));
+                            break;
+
+                        case "/":
+                            operandStack.push(divide(val2,val1));
+                            break;
+
+                        case "%":
+                            operandStack.push(mod(val2,val1));
+                            break;
+
+                        case "^":
+                            //operandStack.push(power(val2,val1));
+                            break;
+                    }
+                }
+                // If the scanned character is an operand
+                // (number here),extract the number
+                // Push it to the operatorStack.
+            else
+            {
+                Num n = new Num(c);
+                //push the number in stack
+                operandStack.push(n);
+            }
+
+        }
+        return operandStack.pop();
+
     }
 
     // Evaluate an expression in infix and return resulting number
@@ -308,14 +374,14 @@ public class Num implements Comparable<Num> {
     }
 
     public static void main(String[] args) {
-        Num x = new Num(100);
+       // Num x = new Num(100);
         //x.printList();
-        Num y = new Num(40);
+       // Num y = new Num(40);
         //y.printList();
 
         //System.out.println(y.compareTo(x));
-        Num z = Num.subtract(x,y);
-        z.printList();
+       // Num z = Num.subtract(x,y);
+       // z.printList();
 
         //Num c = Num.by2(x);
         //c.printList();
@@ -328,8 +394,10 @@ public class Num implements Comparable<Num> {
 
         //Num s = Num.squareRoot(x);
         //s.printList();
-        System.out.println(x.toString());
+        //System.out.println(x.toString());
 
+        String arr[] = {"2","3","1", "*", "/"};
+        System.out.println(evaluatePostfix(arr));
 
 
         /*Num w = Num.by2(x);
@@ -348,7 +416,6 @@ public class Num implements Comparable<Num> {
     // Utility functions
     // compare "this" to "other": return +1 if this is greater, 0 if equal, -1 otherwise
     public int compareTo(Num other) {
-
         if(!this.isNegative && !other.isNegative)
         {
             return this.compareMagnitude(other);
@@ -526,7 +593,3 @@ public class Num implements Comparable<Num> {
         return flag;
     }
 }
-
-
-
-
