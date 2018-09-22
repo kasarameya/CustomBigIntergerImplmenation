@@ -195,6 +195,9 @@ public class Num implements Comparable<Num> {
     // Use divide and conquer
     public static Num power(Num a, long n) {
         //return null;
+        if (n < 0) {
+            throw new IllegalArgumentException("Power can not be negative");
+        }
         if (n == 0) {
             return new Num(1);
         }
@@ -215,14 +218,16 @@ public class Num implements Comparable<Num> {
         Num zero = new Num(0);
 
         if (divisor.compareMagnitude(zero) == 0) {
-            throw new IllegalArgumentException("Denominator cannot be 0");
+            throw new ArithmeticException("Denominator cannot be 0");
         } else if (a.compareMagnitude(zero) == 0) {
             return zero; // If the numerator is 0, the answer will always be 0
         }
         //Handling egde case scenario where if the denominator is 1,
         // there is no need for any computation and the answer will always be 1
         else if (divisor.compareMagnitude(one) == 0) {
-            return one;
+            right.isNegative = a.isNegative ^ b.isNegative;
+            return right;
+
         } else {
             while (left.compareMagnitude(right) == -1) {
                 //System.out.println("Divide");
@@ -328,11 +333,9 @@ public class Num implements Comparable<Num> {
     // For example, if base=100, and the number stored corresponds to 10965,
     // then the output is "100: 65 9 1"
     public void printList() {
-        System.out.print("Base:" + this.base());
-        System.out.print("       ");
-        for (int i = 0; i < this.len - 1; i++)
-            System.out.print(arr[i]);
-        //System.out.println(Arrays.toString(arr));
+        System.out.print(this.base() + " : ");
+        for (int i = 0; i < this.len; i++)
+            System.out.print(arr[i] + " ");
     }
 
     public static void main(String[] args) {
@@ -479,7 +482,7 @@ public class Num implements Comparable<Num> {
                         break;
 
                     case "^":
-                        //operandStack.push(power(val2,val1));
+                        operandStack.push(power(val2,convertToLong(val1)))
                         break;
                 }
             }
@@ -504,7 +507,7 @@ public class Num implements Comparable<Num> {
 
             case "*":
             case "/":
-            case "%":    
+            case "%":
                 return 2;
 
             case "^":
@@ -516,7 +519,7 @@ public class Num implements Comparable<Num> {
     // Evaluate an expression in infix and return resulting number
     // Each string is one of: "*", "+", "-", "/", "%", "^", "(", ")", "0", or
     // a number: [1-9][0-9]*.  There is no unary minus operator.
-   public static Num evaluateInfix(String[] expr) {
+    public static Num evaluateInfix(String[] expr) {
 
         String[] result = new String[expr.length];
         Stack<String> operatorStack = new Stack<>();
@@ -525,11 +528,11 @@ public class Num implements Comparable<Num> {
         for (int i = 0; i<expr.length; ++i)
         {
             String c = expr[i];
-             if (c.equals("(")) {
-                 bracketCount++;
-                 operatorStack.push(c);
-             } else if (c.equals(")")) {
-                 bracketCount++;
+            if (c.equals("(")) {
+                bracketCount++;
+                operatorStack.push(c);
+            } else if (c.equals(")")) {
+                bracketCount++;
                 while (!operatorStack.isEmpty() && ! operatorStack.peek().equals("(")) {
                     result[index++] = operatorStack.pop();
 
@@ -546,9 +549,9 @@ public class Num implements Comparable<Num> {
                 operatorStack.push(c);
             }
             else
-             {
-                 result[index++] = c;
-             }
+            {
+                result[index++] = c;
+            }
 
         }
         while (!operatorStack.isEmpty())
@@ -557,7 +560,6 @@ public class Num implements Comparable<Num> {
 
         String[] postfixArray = new String[result.length-bracketCount];
         System.arraycopy(result,0,postfixArray, 0,result.length-bracketCount );
-        System.out.println(Arrays.toString(postfixArray));
 
 
         return evaluatePostfix(postfixArray);
@@ -572,16 +574,16 @@ public class Num implements Comparable<Num> {
 
     // Return number equal to "this" number, in base=newBase
     public Num convertBase(int newBase) {
-            int i = this.len - 1;
-            Num temp =  new Num(this.arr[i],newBase);
-            while (i >0){
-                Num b=new Num(this.base,newBase);
+        int i = this.len - 1;
+        Num temp =  new Num(this.arr[i],newBase);
+        while (i >0){
+            Num b=new Num(this.base,newBase);
 
-                temp = add(product(temp,b),new Num(this.arr[i-1],newBase));
-                /*  temp.printList();*/
-                i--;
-            }
-            return temp;
+            temp = add(product(temp,b),new Num(this.arr[i-1],newBase));
+            /*  temp.printList();*/
+            i--;
+        }
+        return temp;
     }
 
 
@@ -714,6 +716,15 @@ public class Num implements Comparable<Num> {
     //Extra Functions:
     public static long convertToLong(Num a)
     {
-        return 0;
+        long result = 0 ;
+        for (int i = 0; i < a.arr.length; i++)
+        {
+            result += a.arr[i] * Math.pow(a.base, i);
+        }
+
+        if(a.isNegative)
+            return -result;
+        else
+            return result;
     }
 }
