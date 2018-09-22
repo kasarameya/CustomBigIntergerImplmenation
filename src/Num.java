@@ -495,13 +495,74 @@ public class Num implements Comparable<Num> {
         }
         return operandStack.pop();
     }
+    static int Prec(String ch){
+        switch(ch)
+        {
+            case "+":
+            case "-":
+                return 1;
+
+            case "*":
+            case "/":
+                return 2;
+
+            case "^":
+                return 3;
+        }
+        return -1;
+    }
 
     // Evaluate an expression in infix and return resulting number
     // Each string is one of: "*", "+", "-", "/", "%", "^", "(", ")", "0", or
     // a number: [1-9][0-9]*.  There is no unary minus operator.
-    public static Num evaluateInfix(String[] expr) {
-        return null;
+   public static Num evaluateInfix(String[] expr) {
+
+        String[] result = new String[expr.length];
+        Stack<String> operatorStack = new Stack<>();
+        int bracketCount = 0;
+        int index=0;
+        for (int i = 0; i<expr.length; ++i)
+        {
+            String c = expr[i];
+             if (c.equals("(")) {
+                 bracketCount++;
+                 operatorStack.push(c);
+             } else if (c.equals(")")) {
+                 bracketCount++;
+                while (!operatorStack.isEmpty() && ! operatorStack.peek().equals("(")) {
+                    result[index++] = operatorStack.pop();
+
+                }
+                if (!operatorStack.isEmpty() && !operatorStack.peek().equals("("))
+                    System.out.println("Invalid");
+                else{
+                    operatorStack.pop();
+                }
+            } else if(c.matches("[-+*/%^]")){
+                while (!operatorStack.isEmpty() && Prec(c) <= Prec(operatorStack.peek())){
+                    result[index++]= operatorStack.pop();
+                }
+                operatorStack.push(c);
+            }
+            else
+             {
+                 result[index++] = c;
+             }
+
+        }
+        while (!operatorStack.isEmpty())
+            result[index++] = operatorStack.pop();
+
+
+        String[] postfixArray = new String[result.length-bracketCount];
+        System.arraycopy(result,0,postfixArray, 0,result.length-bracketCount );
+        System.out.println(Arrays.toString(postfixArray));
+
+
+        return evaluatePostfix(postfixArray);
+
     }
+
 
 
     public long base() {
