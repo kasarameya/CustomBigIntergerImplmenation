@@ -195,6 +195,9 @@ public class Num implements Comparable<Num> {
     // Use divide and conquer
     public static Num power(Num a, long n) {
         //return null;
+        if (n < 0) {
+            throw new IllegalArgumentException("Power can not be negative");
+        }
         if (n == 0) {
             return new Num(1);
         }
@@ -215,14 +218,16 @@ public class Num implements Comparable<Num> {
         Num zero = new Num(0);
 
         if (divisor.compareMagnitude(zero) == 0) {
-            throw new IllegalArgumentException("Denominator cannot be 0");
+            throw new ArithmeticException("Denominator cannot be 0");
         } else if (a.compareMagnitude(zero) == 0) {
             return zero; // If the numerator is 0, the answer will always be 0
         }
         //Handling egde case scenario where if the denominator is 1,
         // there is no need for any computation and the answer will always be 1
         else if (divisor.compareMagnitude(one) == 0) {
-            return one;
+            right.isNegative = a.isNegative ^ b.isNegative;
+            return right;
+
         } else {
             while (left.compareMagnitude(right) == -1) {
                 //System.out.println("Divide");
@@ -328,11 +333,9 @@ public class Num implements Comparable<Num> {
     // For example, if base=100, and the number stored corresponds to 10965,
     // then the output is "100: 65 9 1"
     public void printList() {
-        System.out.print("Base:" + this.base());
-        System.out.print("       ");
-        for (int i = 0; i < this.len - 1; i++)
-            System.out.print(arr[i]);
-        //System.out.println(Arrays.toString(arr));
+        System.out.print(this.base() + " : ");
+        for (int i = 0; i < this.len; i++)
+            System.out.print(arr[i] + " ");
     }
 
     public static void main(String[] args) {
