@@ -507,7 +507,7 @@ public class Num implements Comparable<Num> {
 
             case "*":
             case "/":
-            case "%":    
+            case "%":
                 return 2;
 
             case "^":
@@ -519,7 +519,7 @@ public class Num implements Comparable<Num> {
     // Evaluate an expression in infix and return resulting number
     // Each string is one of: "*", "+", "-", "/", "%", "^", "(", ")", "0", or
     // a number: [1-9][0-9]*.  There is no unary minus operator.
-   public static Num evaluateInfix(String[] expr) {
+    public static Num evaluateInfix(String[] expr) {
 
         String[] result = new String[expr.length];
         Stack<String> operatorStack = new Stack<>();
@@ -528,11 +528,11 @@ public class Num implements Comparable<Num> {
         for (int i = 0; i<expr.length; ++i)
         {
             String c = expr[i];
-             if (c.equals("(")) {
-                 bracketCount++;
-                 operatorStack.push(c);
-             } else if (c.equals(")")) {
-                 bracketCount++;
+            if (c.equals("(")) {
+                bracketCount++;
+                operatorStack.push(c);
+            } else if (c.equals(")")) {
+                bracketCount++;
                 while (!operatorStack.isEmpty() && ! operatorStack.peek().equals("(")) {
                     result[index++] = operatorStack.pop();
 
@@ -549,9 +549,9 @@ public class Num implements Comparable<Num> {
                 operatorStack.push(c);
             }
             else
-             {
-                 result[index++] = c;
-             }
+            {
+                result[index++] = c;
+            }
 
         }
         while (!operatorStack.isEmpty())
@@ -574,16 +574,16 @@ public class Num implements Comparable<Num> {
 
     // Return number equal to "this" number, in base=newBase
     public Num convertBase(int newBase) {
-            int i = this.len - 1;
-            Num temp =  new Num(this.arr[i],newBase);
-            while (i >0){
-                Num b=new Num(this.base,newBase);
+        int i = this.len - 1;
+        Num temp =  new Num(this.arr[i],newBase);
+        while (i >0){
+            Num b=new Num(this.base,newBase);
 
-                temp = add(product(temp,b),new Num(this.arr[i-1],newBase));
-                /*  temp.printList();*/
-                i--;
-            }
-            return temp;
+            temp = add(product(temp,b),new Num(this.arr[i-1],newBase));
+            /*  temp.printList();*/
+            i--;
+        }
+        return temp;
     }
 
 
