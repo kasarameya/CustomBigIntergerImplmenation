@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Stack;
 
 //Shreyash has made a test commit and push to his branch!
@@ -57,7 +55,7 @@ public class Num implements Comparable<Num> {
         this.base = newBase;
         if (number < 0) {
             this.isNegative = true;
-            number *= -1;
+            number = Math.abs(number);
         }
         this.arr = new long[100];
         if (number == 0) {
@@ -224,40 +222,51 @@ public class Num implements Comparable<Num> {
     // Use binary search to calculate a/b
     public static Num divide(Num a, Num b) {
         Num left = new Num(0);
-        Num right = a;
+        Num right = getAbsNum(a);
+        Num divisor = getAbsNum(b);
         Num mid = new Num();
         Num one = new Num(1);
-        int cnt = 10;
-        if (b.compareTo(left) == 0) {
+        Num zero = new Num(0);
+
+        if (divisor.compareMagnitude(zero) == 0) {
             throw new IllegalArgumentException("Denominator cannot be 0");
-        } else if (a.compareTo(left) == 0) {
-            return left; // If the numerator is 0, the answer will always be 0
+        } else if (a.compareMagnitude(zero) == 0) {
+            return zero; // If the numerator is 0, the answer will always be 0
         }
         //Handling egde case scenario where if the denominator is 1,
         // there is no need for any computation and the answer will always be 1
-        else if (b.compareTo(one) == 0) {
-            return a;
+        else if (divisor.compareMagnitude(one) == 0) {
+            return one;
         } else {
-            while (left.compareTo(right) == -1 && cnt--> 0) {
-                System.out.println("Divide");
+            while (left.compareMagnitude(right) == -1) {
+                //System.out.println("Divide");
                 // calculate mid
                 mid = by2(add(left, right));
 
                 // if y*mid is almost equal to x , return mid
-                System.out.println(left + " : " + mid + " : " + right + " - ");
-                if ((product(b, mid).compareTo(a) <= 0) && product(b, add(mid, one)).compareTo(a) > 0) {
+                //System.out.println(left + " : " + mid + " : " + right + " - ");
+                if ((product(divisor, mid).compareMagnitude(getAbsNum(a)) <= 0) && product(divisor, add(mid, one)).compareMagnitude(getAbsNum(a)) > 0) {
+                    mid.isNegative = a.isNegative ^ b.isNegative;
                     return mid;
                 }
 
                 // if y*mid is less than x, update left to mid
-                if (product(b, mid).compareTo(a) == -1) {
+                if (product(divisor, mid).compareMagnitude(getAbsNum(a)) == -1) {
                     left = mid;
-                } else if (product(b, mid).compareTo(a) == 1) {   // if y*mid is more than x, update right to mid
+                } else if (product(divisor, mid).compareMagnitude(getAbsNum(a)) == 1) {   // if y*mid is more than x, update right to mid
                     right = mid;
                 }
             }
         }
+        mid.isNegative = a.isNegative ^ b.isNegative;
         return mid;
+    }
+
+    public static Num getAbsNum(Num givenNum) {
+        Num absNum = new Num(0);
+        System.arraycopy(givenNum.arr, 0, absNum.arr, 0, givenNum.len);
+        absNum.len = givenNum.len;
+        return absNum;
     }
 
     // Use binary search
@@ -592,9 +601,9 @@ public class Num implements Comparable<Num> {
 
 
     public static void main(String[] args) {
-        Num x = new Num(3);
+        Num x = new Num(9);
         //x.printList();
-        Num y = new Num(2);
+        Num y = new Num(-4);
         //y.printList();
 
         //System.out.println(y.compareTo(x));
@@ -607,8 +616,12 @@ public class Num implements Comparable<Num> {
         //Num d = Num.product(x,y);
         //d.printList();
 
-        Num p = Num.divide(x,y);
+        Num p = divide(x, y);
+        x.printList();
+        System.out.println();
         p.printList();
+        // Num kk = getAbsNum(x);
+        //kk.printList();
 
         //Num s = Num.squareRoot(x);
         //s.printList();
