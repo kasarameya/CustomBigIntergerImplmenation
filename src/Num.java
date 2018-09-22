@@ -504,6 +504,7 @@ public class Num implements Comparable<Num> {
 
             case "*":
             case "/":
+            case "%":    
                 return 2;
 
             case "^":
