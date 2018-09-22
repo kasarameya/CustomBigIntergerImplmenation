@@ -141,8 +141,7 @@ public class Num implements Comparable<Num> {
             }
             answer.arr = subhelper(x, y, result);
         }else if(a.isNegative && b.isNegative){
-            b.isNegative = false;
-            answer = add(a, b);
+            answer.arr = addhelper(a, b, result);
         }
         answer.len = result.length;
         return answer;
@@ -337,8 +336,8 @@ public class Num implements Comparable<Num> {
     }
 
     public static void main(String[] args) {
-        Num x = new Num(-25);
-        Num y = new Num(-5);
+        Num x = new Num(26);
+        Num y = new Num(5);
 
         System.out.println();
         Num a = add(x, y);
