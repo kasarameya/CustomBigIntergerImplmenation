@@ -336,16 +336,77 @@ public class Num implements Comparable<Num> {
         //System.out.println(Arrays.toString(arr));
     }
 
-    // Return number to a string in base 10
-    //TODO Replace 2 by base
-    public String toString() {
-        String res = "";
-        Num z= this;
-        z=z.convertBase(10);
-        for (int i=z.arr.length-1;i>=0;i--) {
-            res += z.arr[i];
-        }
-        return res;
+    public static void main(String[] args) {
+        Num x = new Num(-25);
+        Num y = new Num(-5);
+
+        System.out.println();
+        Num a = add(x, y);
+        System.out.println("1. Addition: " + a.toString());//a.printList();
+        System.out.println();
+
+        Num b = subtract(x, y);
+        System.out.println("2. Subtraction: " + b.toString());//b.printList();
+        System.out.println();
+
+        Num c = product(x, y);
+        System.out.println("3. Product: " + c.toString());//c.printList();
+        System.out.println();
+
+        Num d = divide(x, y);
+        System.out.println("4. Division: " + d.toString());//d.printList();
+        System.out.println();
+
+        Num e = mod(x, y);
+        System.out.println("5. Modulo: " + e.toString());//f.printList();
+        System.out.println();
+
+        int n = 5;
+        Num f = power(x, n);
+        System.out.println("6. Power: " + f.toString());//g.printList();
+        System.out.println();
+
+        int g = x.compareTo(y);
+        System.out.println("7. Compare To: " + g);//h.printList();
+        System.out.println();
+
+        Num h = squareRoot(x);
+        System.out.println("8. Square Root: " + h.toString());//e.printList();
+        System.out.println();
+
+        Num i = by2(x);
+        System.out.println("9. By 2: " + i.toString());//h.printList();
+        System.out.println();
+
+        System.out.println("10. INfix");
+
+        System.out.println("11. POSTfix");
+        System.out.println();
+
+        System.out.println("12. To String:" + x.toString());
+        System.out.println();
+
+        System.out.println("13. Long Constructor");
+        System.out.println("14. String Constructor");
+        System.out.println("15. New Constructors");
+        System.out.println();
+
+        System.out.println("16. Printlist");
+        x.printList();
+        System.out.println();
+        System.out.println();
+
+        System.out.println("17. Num to Long Constructor");
+        System.out.println();
+
+        System.out.println("17. Trailing Zeros" + removeTrailingZeros(x.arr));
+        System.out.println();
+
+
+        int ba = 5;
+        Num k = x.convertBase(ba);
+        System.out.println("18. ConvertBase:" + k.toString());
+
 
     }
 
@@ -372,34 +433,9 @@ public class Num implements Comparable<Num> {
         return answer;
     }
 
-    // Use divide and conquer
-    public static Num power(Num a, long n) {
-        //return null;
-        if (n == 0) {
-            return new Num(1);
-        }
-        Num p = power(product(a, a), n / 2);
-        if (n % 2 == 0)
-            return p;
-        else
-            return product(p, a);
-    }
 
-    // return a%b
-    public static Num mod(Num a, Num b) {
 
-        Num quotient = divide(a,b);
-        Num answer = product(quotient,b);
-        Num remainder = subtract(a,answer);
 
-        return remainder;
-    }
-
-    public static long convertToLong(Num a)
-    {
-
-       return 0;
-    }
 
     // Evaluate an expression in postfix and return resulting number
     // Each string is one of: "*", "+", "-", "/", "%", "^", "0", or
@@ -468,64 +504,6 @@ public class Num implements Comparable<Num> {
         return null;
     }
 
-
-    // Utility functions
-    // compare "this" to "other": return +1 if this is greater, 0 if equal, -1 otherwise
-    public int compareTo(Num other) {
-        if(!this.isNegative && !other.isNegative)
-        {
-            return this.compareMagnitude(other);
-        }
-        else if(this.isNegative && other.isNegative)
-        {
-            int flag = this.compareMagnitude(other);
-            //System.out.println(flag);
-            if(flag == -1) {
-                //  System.out.println("OKAY");
-                return 1;
-            }
-            else if(flag == 1)
-                return -1;
-            else
-                return 0;
-        }
-        else if(!this.isNegative && other.isNegative)
-        {
-            return 1;
-        }
-        else if(this.isNegative && !other.isNegative)
-        {
-            return -1;
-        }
-
-
-        return 0;
-    }
-
-
-    // Output using the format "base: elements of list ..."
-    // For example, if base=100, and the number stored corresponds to 10965,
-    // then the output is "100: 65 9 1"
-    public void printList() {
-        if (isNegative)
-            System.out.print("-");
-        for (int i = this.len - 1; i >= 0; i--)
-            System.out.print(arr[i]);
-        //System.out.println(Arrays.toString(arr));
-    }
-
-    // Return number to a string in base 10
-    //TODO Replace 2 by base
-    public String toString() {
-        String res = "";
-        for (int i=this.arr.length-1;i>=0;i--) res += this.arr[i];
-        return res;
-//        long n = 0;
-//        for (int i = 0; i < arr.length; i++) {
-//            n += Math.pow(2, i) * arr[i];
-//        }
-//        return String.valueOf(n);
-    }
 
     public long base() {
         return base;
@@ -654,78 +632,20 @@ public class Num implements Comparable<Num> {
         return flag;
     }
 
+    // Return number to a string in base 10
+    //TODO Replace 2 by base
+    public String toString() {
+        StringBuilder resultBuiler = new StringBuilder();
+        if (this.isNegative) {
+            resultBuiler.append("-");
+        }
 
-    public static void main(String[] args) {
-        Num x = new Num(25);
-        Num y = new Num(5);
-
-        System.out.println();
-        Num a = add(x, y);
-        System.out.println("1. Addition: " + a.toString());//a.printList();
-        System.out.println();
-
-        Num b = subtract(x, y);
-        System.out.println("2. Subtraction: " + b.toString());//b.printList();
-        System.out.println();
-
-        Num c = product(x, y);
-        System.out.println("3. Product: " + c.toString());//c.printList();
-        System.out.println();
-
-        Num d = divide(x, y);
-        System.out.println("4. Division: " + d.toString());//d.printList();
-        System.out.println();
-
-        Num e = mod(x, y);
-        System.out.println("5. Modulo: " + e.toString());//f.printList();
-        System.out.println();
-
-        int n = 5;
-        Num f = power(x, n);
-        System.out.println("6. Power: " + f.toString());//g.printList();
-        System.out.println();
-
-        int g = x.compareTo(y);
-        System.out.println("7. Compare To: " + g);//h.printList();
-        System.out.println();
-
-        Num h = squareRoot(x);
-        System.out.println("8. Square Root: " + h.toString());//e.printList();
-        System.out.println();
-
-        Num i = by2(x);
-        System.out.println("9. By 2: " + i.toString());//h.printList();
-        System.out.println();
-
-        System.out.println("10. INfix");
-
-        System.out.println("11. POSTfix");
-        System.out.println();
-
-        System.out.println("12. To String:" + x.toString());
-        System.out.println();
-
-        System.out.println("13. Long Constructor");
-        System.out.println("14. String Constructor");
-        System.out.println("15. New Constructors");
-        System.out.println();
-
-        System.out.println("16. Printlist");
-        x.printList();
-        System.out.println();
-        System.out.println();
-
-        System.out.println("17. Num to Long Constructor");
-        System.out.println();
-
-        System.out.println("17. Trailing Zeros" +  removeTrailingZeros(x.arr));
-        System.out.println();
-
-
-        int ba = 5;
-        Num k = x.convertBase(ba);
-        System.out.println("18. ConvertBase:" + k.toString());
-
+        Num z = this;
+        z = z.convertBase(10);
+        for (int i = z.arr.length - 1; i >= 0; i--) {
+            resultBuiler.append(z.arr[i]);
+        }
+        return resultBuiler.toString();
 
     }
 
