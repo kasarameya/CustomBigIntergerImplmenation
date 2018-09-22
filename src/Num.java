@@ -482,7 +482,7 @@ public class Num implements Comparable<Num> {
                         break;
 
                     case "^":
-                        //operandStack.push(power(val2,val1));
+                        operandStack.push(power(val2,convertToLong(val1)))
                         break;
                 }
             }
@@ -716,6 +716,15 @@ public class Num implements Comparable<Num> {
     //Extra Functions:
     public static long convertToLong(Num a)
     {
-        return 0;
+        long result = 0 ;
+        for (int i = 0; i < a.arr.length; i++)
+        {
+            result += a.arr[i] * Math.pow(a.base, i);
+        }
+
+        if(a.isNegative)
+            return -result;
+        else
+            return result;
     }
 }
