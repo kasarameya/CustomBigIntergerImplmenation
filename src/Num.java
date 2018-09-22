@@ -560,10 +560,9 @@ public class Num implements Comparable<Num> {
 
         String[] postfixArray = new String[result.length-bracketCount];
         System.arraycopy(result,0,postfixArray, 0,result.length-bracketCount );
-        System.out.println(Arrays.toString(postfixArray));
 
 
-        return evaluatePostfix(postfixArray);
+       return evaluatePostfix(postfixArray);
 
     }
 
