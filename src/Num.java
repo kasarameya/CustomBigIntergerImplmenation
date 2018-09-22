@@ -482,7 +482,7 @@ public class Num implements Comparable<Num> {
                         break;
 
                     case "^":
-                        operandStack.push(power(val2,convertToLong(val1)))
+                        operandStack.push(power(val2,convertToLong(val1)));
                         break;
                 }
             }
