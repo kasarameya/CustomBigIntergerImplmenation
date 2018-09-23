@@ -11,11 +11,13 @@ public class Num implements Comparable<Num> {
     public Num() {
         this.arr = null;
         this.len = 0;
+        this.base = base;
         this.isNegative = false;
     }
 
     public Num(long[] x) {
         this.arr = x;
+        this.base = base;
         this.len = x.length;
     }
 
@@ -61,7 +63,7 @@ public class Num implements Comparable<Num> {
             number = Math.abs(number);
         }
 
-        this.arr = new long[Long.toString(number).length()];
+        this.arr = new long[(int) Math.pow(10, (Long.toString(number).length() + 1))];
         if (number == 0) {
             this.len = 1;
             return;
@@ -117,7 +119,7 @@ public class Num implements Comparable<Num> {
         //Num answer = new Num();
         answer.arr = removeTrailingZeros(result);
         answer.len = answer.arr.length;
-        //answer.len = result.length;
+        answer.base = a.base;
         return answer;
     }
 
@@ -185,6 +187,7 @@ public class Num implements Comparable<Num> {
         answer.isNegative = lessThanZero;
         answer.arr = removeTrailingZeros(result);
         answer.len = answer.arr.length;
+        answer.base = a.base;
         return answer;
     }
 
@@ -237,7 +240,6 @@ public class Num implements Comparable<Num> {
     public static Num power(Num a, long n) {
 
         Num zero = new Num(0);
-
         if (n < 0) {
             return zero;
         }
@@ -291,6 +293,7 @@ public class Num implements Comparable<Num> {
                 //System.out.println(left + " : " + mid + " : " + right + " - ");
                 if ((product(divisor, mid).compareMagnitude(getAbsNum(a)) <= 0) && product(divisor, add(mid, one)).compareMagnitude(getAbsNum(a)) > 0) {
                     mid.isNegative = a.isNegative ^ b.isNegative;
+                    mid.base = a.base;
                     return mid;
                 }
 
@@ -303,6 +306,7 @@ public class Num implements Comparable<Num> {
             }
         }
         mid.isNegative = a.isNegative ^ b.isNegative;
+        mid.base = a.base;
         return mid;
     }
 
@@ -409,8 +413,8 @@ public class Num implements Comparable<Num> {
         Num answer = new Num();
         answer.arr = removeTrailingZeros(result);
         answer.len = answer.arr.length;
+        answer.base = a.base;
         answer.isNegative = a.isNegative;
-
         return answer;
     }
 
@@ -431,8 +435,6 @@ public class Num implements Comparable<Num> {
             String c = expr[i];
             if(c.equals(" "))
                 continue;
-                // If the scanned character is an operator, pop two
-                // elements from operatorStack apply the operator
             else
             if (c.matches("[-+*/%^]"))
             {
@@ -465,13 +467,9 @@ public class Num implements Comparable<Num> {
                         break;
                 }
             }
-            // If the scanned character is an operand
-            // (number here),extract the number
-            // Push it to the operatorStack.
             else
             {
                 Num n = new Num(c);
-                //push the number in stack
                 operandStack.push(n);
             }
         }
@@ -615,98 +613,9 @@ public class Num implements Comparable<Num> {
         return result;
     }
 
-    public  long[] subhelper(long[] x, long[] y, long result[]){
-        int i = 0,j = 0;
-        int index = 0;
-        long diff;
-        while (i < x.length && j < y.length)
-        {
-            if (x[i] >= y[j])
-            {
-                diff = x[i] - y[j];
-                result[index] = diff;
-            }
-            else
-            {   int k = 0;
-                diff = (base + x[i]) - y[j];
-                if((i+1 < x.length)  && (x[i + 1] != 0)) {
-                    x[i+1] -= 1;
-                }
-                else
-                {
-
-                    k = i + 1;
-                    while( k < x.length && x[k] == 0) {
-                        x[k] = base - 1;
-                        k++;
-                    }
-                    x[k] -= 1;
-                }
-            }
-            result[index] = diff;
-
-            index++;
-            i++;
-            j++;
-        }
-        while(i < x.length)
-        {
-            result[index] = x[i];
-            index++;
-            i++;
-        }
-        return result;
-    }
-
-    public int compareMagnitude(Num other) {
-        int flag = 0;
-        if (this.len > other.len) {
-            return 1;
-        } else if (this.len < other.len) {
-            return -1;
-        } else if (this.len == other.len) {
-            int i = this.len - 1, j = other.len - 1;
-            while (i>=0 && j >=0) {
-
-                if (this.arr[i] > other.arr[j]) {
-                    flag = 1;
-                    break;
-                } else if (this.arr[i] < other.arr[j]) {
-                    flag = -1;
-                    break;
-                } else if(this.arr[i] == other.arr[j]){
-                    flag = 0;
-                }
-                i--;
-                j--;
-            }
-        }
-        return flag;
-    }
-
-    // Return number to a string in base 10
-    //TODO Replace 2 by base
-    public String toString() {
-        StringBuilder resultBuiler = new StringBuilder();
-        if(this.compareMagnitude(new Num(0)) == 0){
-            return "0";
-        }
-        if (this.isNegative) {
-            resultBuiler.append("-");
-        }
-
-        Num z = this;
-        z = z.convertBase(10);
-        for (int i = z.arr.length - 1; i >= 0; i--) {
-            resultBuiler.append(z.arr[i]);
-        }
-        return resultBuiler.toString();
-
-    }
-
     public static void main(String[] args) {
-        Num x = new Num(-74);
-        Num y = new Num(-26);
+        Num x = new Num(2);
+        Num y = new Num(2);
 
         Num a = add(x, y);
         System.out.println("1. Addition: " + a.toString());a.printList();
@@ -730,7 +639,7 @@ public class Num implements Comparable<Num> {
         System.out.println("5. Modulo: " + e.toString());e.printList();
         System.out.println();
 
-        int n = 5;
+        long n = 9765625;
         Num f = power(x, n);
         System.out.println("6. Power: " + f.toString());f.printList();
         System.out.println();
@@ -749,7 +658,9 @@ public class Num implements Comparable<Num> {
 
         System.out.println("10. INfix");
 
-        System.out.println("11. POSTfix");
+        String expr4[] = {"2", "5", "10", "^", "^"};
+        System.out.println("11. POSTfix " + evaluatePostfix(expr4));
+
         System.out.println();
 
         System.out.println("12. To String:" + x.toString());
@@ -772,6 +683,88 @@ public class Num implements Comparable<Num> {
         System.out.println();
 
 
+    }
+
+    public int compareMagnitude(Num other) {
+        int flag = 0;
+        if (this.len > other.len) {
+            return 1;
+        } else if (this.len < other.len) {
+            return -1;
+        } else if (this.len == other.len) {
+            int i = this.len - 1, j = other.len - 1;
+            while (i >= 0 && j >= 0) {
+
+                if (this.arr[i] > other.arr[j]) {
+                    flag = 1;
+                    break;
+                } else if (this.arr[i] < other.arr[j]) {
+                    flag = -1;
+                    break;
+                } else if (this.arr[i] == other.arr[j]) {
+                    flag = 0;
+                }
+                i--;
+                j--;
+            }
+        }
+        return flag;
+    }
+
+    // Return number to a string in base 10
+    //TODO Replace 2 by base
+    public String toString() {
+        StringBuilder resultBuiler = new StringBuilder();
+        if (this.compareMagnitude(new Num(0)) == 0) {
+            return "0";
+        }
+        if (this.isNegative) {
+            resultBuiler.append("-");
+        }
+
+        Num z = this;
+        z = z.convertBase(10);
+        for (int i = z.arr.length - 1; i >= 0; i--) {
+            resultBuiler.append(z.arr[i]);
+        }
+        return resultBuiler.toString();
+
+    }
+
+    public long[] subhelper(long[] x, long[] y, long result[]) {
+        int i = 0, j = 0;
+        int index = 0;
+        long diff;
+        while (i < x.length && j < y.length) {
+            if (x[i] >= y[j]) {
+                diff = x[i] - y[j];
+                //result[index] = diff;
+            } else {
+                int k = 0;
+                diff = (base + x[i]) - y[j];
+                if ((i + 1 < x.length) && (x[i + 1] != 0)) {
+                    x[i + 1] -= 1;
+                } else {
+
+                    k = i + 1;
+                    while (k < x.length && x[k] == 0) {
+                        x[k] = base - 1;
+                        k++;
+                    }
+                    x[k] -= 1;
+                }
+            }
+            result[index] = diff;
+            index++;
+            i++;
+            j++;
+        }
+        while (i < x.length) {
+            result[index] = x[i];
+            index++;
+            i++;
+        }
+        return result;
     }
 
     //Extra Functions:
