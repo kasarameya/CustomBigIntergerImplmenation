@@ -3,7 +3,7 @@ import java.util.Stack;
 public class Num implements Comparable<Num> {
 
     static long defaultBase = 10;  // Change as needed
-    static long base = defaultBase;  // Change as needed
+     long base = defaultBase;  // Change as needed
     long[] arr;  // array to store arbitrarily large integers
     boolean isNegative;  // boolean flag to represent negative numbers
     int len;  // actual number of elements of array that are used;  number is stored in arr[0..len-1]
@@ -106,14 +106,14 @@ public class Num implements Comparable<Num> {
                     else if(b.isNegative) answer.isNegative = true;
                 }
             }
-            answer.arr = subhelper(x.arr, y.arr, result);
+            answer.arr = answer.subhelper(x.arr, y.arr, result);
         }
         if(a.isNegative && b.isNegative) {
-            answer.arr = addhelper(a, b, result);
+            answer.arr = answer.addhelper(a, b, result);
             answer.isNegative = true;
         }
         else if(!a.isNegative && !b.isNegative)
-            answer.arr = addhelper(a, b, result);
+            answer.arr = answer.addhelper(a, b, result);
         //Num answer = new Num();
         answer.arr = removeTrailingZeros(result);
         answer.len = answer.arr.length;
@@ -123,6 +123,7 @@ public class Num implements Comparable<Num> {
 
     public static Num subtract(Num a, Num b)
     {
+        Num answer = new Num();
         long[] p1=new long[Math.max(a.len,b.len)];
         long[] p2=new long[Math.max(b.len,a.len)];
         /*System.arraycopy(a.arr,0,p1,0,a.len);
@@ -135,11 +136,11 @@ public class Num implements Comparable<Num> {
         long[] result = new long[Math.max(a.len,b.len)+1];
         if(b.isNegative && !a.isNegative)
         {
-            result = addhelper(a, b, result);
+            result = answer.addhelper(a, b, result);
         }
         else if(a.isNegative && !b.isNegative)
         {
-            result = addhelper(a, b, result);
+            result = answer.addhelper(a, b, result);
             lessThanZero = true;
         }
         else if(!a.isNegative && !b.isNegative)
@@ -167,9 +168,9 @@ public class Num implements Comparable<Num> {
                     lessThanZero = true;
                 }
             }
-            result = subhelper(p1, p2, result);
+            result = answer.subhelper(p1, p2, result);
         }else if(a.isNegative && b.isNegative){
-            result = subhelper(a.arr, b.arr, result);
+            result = answer.subhelper(a.arr, b.arr, result);
             if(a.compareMagnitude(b)==1){
                 lessThanZero = true;
             }
@@ -180,7 +181,7 @@ public class Num implements Comparable<Num> {
         tempResult.arr = removeTrailingZeros(result);
         tempResult.len = tempResult.arr.length;
         return tempResult;*/
-        Num answer = new Num();
+
         answer.isNegative = lessThanZero;
         answer.arr = removeTrailingZeros(result);
         answer.len = answer.arr.length;
@@ -195,8 +196,8 @@ public class Num implements Comparable<Num> {
             index = i;
             for (int j = 0; j < b.len; j++) {
                 long x=result[index]+ (a.arr[i] * b.arr[j]) + carry;
-                result[index] = x % base;
-                carry = x / base;
+                result[index] = x % a.base();
+                carry = x / a.base();
                 index++;
             }
             if (carry > 0) {
@@ -234,10 +235,18 @@ public class Num implements Comparable<Num> {
 
     // Use divide and conquer
     public static Num power(Num a, long n) {
-        //return null;
+
+        Num zero = new Num(0);
+
         if (n < 0) {
-            throw new IllegalArgumentException("Power can not be negative");
+            return zero;
         }
+        if (n == 0 && a.compareMagnitude(zero)==0)
+        {
+            throw new IllegalArgumentException("Undefined");
+        }
+
+
         if (n == 0) {
             return new Num(1);
         }
@@ -390,7 +399,7 @@ public class Num implements Comparable<Num> {
         long n = 0;
         long[] result = new long[a.len];
         while (j >= 0) {
-            n = a.arr[j] + (carry * base);
+            n = a.arr[j] + (carry * a.base());
             result[index] = n / 2;
             index--;
             carry = n % 2;
@@ -559,7 +568,7 @@ public class Num implements Comparable<Num> {
 
 
     //Helper Functions:
-    public static long[] addhelper(Num x, Num y, long result[]){
+    public  long[] addhelper(Num x, Num y, long result[]){
         int i = 0,j = 0;
         long sum = 0;
         long carry = 0;
@@ -567,9 +576,9 @@ public class Num implements Comparable<Num> {
         while(i < x.len && j < y.len)
         {
             sum = x.arr[i] + y.arr[j] + carry;
-            result[index] = sum % base;
+            result[index] = sum % x.base();
             index++;
-            carry = sum / base;
+            carry = sum / x.base();
             i++;
             j++;
         }
@@ -577,9 +586,9 @@ public class Num implements Comparable<Num> {
         while(i < x.len)
         {
             sum = x.arr[i] + carry;
-            result[index] = sum % base;
+            result[index] = sum % x.base();
             index++;
-            carry = sum / base;
+            carry = sum / x.base();
             i++;
         }
 
@@ -600,7 +609,7 @@ public class Num implements Comparable<Num> {
         return result;
     }
 
-    public static long[] subhelper(long[] x, long[] y, long result[]){
+    public  long[] subhelper(long[] x, long[] y, long result[]){
         int i = 0,j = 0;
         int index = 0;
         long diff;
@@ -690,8 +699,8 @@ public class Num implements Comparable<Num> {
     }
 
     public static void main(String[] args) {
-        Num x = new Num(9223372036854775807L);
-        Num y = new Num(1);
+        Num x = new Num(-74);
+        Num y = new Num(-26);
 
         Num a = add(x, y);
         System.out.println("1. Addition: " + a.toString());a.printList();
