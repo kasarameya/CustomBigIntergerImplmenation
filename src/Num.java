@@ -27,9 +27,18 @@ public class Num implements Comparable<Num> {
     public Num(String s, long newBase) {
         this.arr= new long[s.length()];
         int i = 0;
-        for(int k =s.length()-1; k>=0; k--){
-            this.arr[i] = (long) s.charAt(k) - '0';
-            i++;
+        if(s.charAt(0) == '-') {
+            this.isNegative = true;
+            for(int k = s.length()-1; k > 0; k--){
+                this.arr[i] = (long) s.charAt(k) - '0';
+                i++;
+            }
+        }
+        else {
+            for (int k = s.length() - 1; k >= 0; k--) {
+                this.arr[i] = (long) s.charAt(k) - '0';
+                i++;
+            }
         }
         this.base=10;
         this.len=this.arr.length;
@@ -105,21 +114,19 @@ public class Num implements Comparable<Num> {
         }
         else if(!a.isNegative && !b.isNegative)
             answer.arr = addhelper(a, b, result);
-        answer.len = result.length;
+        //Num answer = new Num();
+        answer.arr = removeTrailingZeros(result);
+        answer.len = answer.arr.length;
+        //answer.len = result.length;
         return answer;
-    }
-
-    public static void copyArray(long []a)
-    {
-
     }
 
     public static Num subtract(Num a, Num b)
     {
         long[] p1=new long[Math.max(a.len,b.len)];
         long[] p2=new long[Math.max(b.len,a.len)];
-        System.arraycopy(a.arr,0,p1,0,a.len);
-        System.arraycopy(b.arr,0,p2,0,b.len);
+        /*System.arraycopy(a.arr,0,p1,0,a.len);
+        System.arraycopy(b.arr,0,p2,0,b.len);*/
 
 
 //        Num x = new Num(a.arr);
@@ -141,11 +148,16 @@ public class Num implements Comparable<Num> {
                 System.arraycopy(a.arr,0,p1,0,a.len);
                 System.arraycopy(b.arr,0,p2,0,b.len);
             }
+
+
             else if(a.len < b.len){
                 System.arraycopy(a.arr,0,p2,0,a.len);
                 System.arraycopy(b.arr,0,p1,0,b.len);
                 lessThanZero = true;
-            }else if(a.len == b.len){
+            }
+
+
+            else if(a.len == b.len){
                 if (a.compareMagnitude(b) == 1 || a.compareMagnitude(b) == 0){
                     System.arraycopy(a.arr,0,p1,0,a.len);
                     System.arraycopy(b.arr,0,p2,0,b.len);
@@ -162,9 +174,17 @@ public class Num implements Comparable<Num> {
                 lessThanZero = true;
             }
         }
-        Num tempResult = new Num(result);
+        /*Num tempResult = new Num(result);
         tempResult.isNegative = lessThanZero;
-        return tempResult;
+
+        tempResult.arr = removeTrailingZeros(result);
+        tempResult.len = tempResult.arr.length;
+        return tempResult;*/
+        Num answer = new Num();
+        answer.isNegative = lessThanZero;
+        answer.arr = removeTrailingZeros(result);
+        answer.len = answer.arr.length;
+        return answer;
     }
 
     public static Num product(Num a, Num b) {
@@ -356,87 +376,7 @@ public class Num implements Comparable<Num> {
             System.out.print(arr[i] + " ");
     }
 
-    public static void main(String[] args) {
-        Num in1 = new Num(1000);
-        Num in2 = new Num(7);
 
-        System.out.println();
-        /*int ba = 2;
-        Num k = x.convertBase(ba);
-        Num j = y.convertBase(ba);
-        //k.printList();
-        System.out.println();
-        j.printList();*/
-       /* Num z = divide(x,y);
-        System.out.println(z.toString());*/
-       /* Num a = add(x, y);
-        System.out.println("1. Addition: " + a.toString());a.printList();
-        System.out.println();
-
-        Num d = divide(x, y);
-        System.out.println("4. Division: " + d.toString());d.printList();
-        System.out.println();*/
-
-        Num b = subtract(in1, in2);
-        System.out.println("2. Subtraction: " + b.toString());b.printList();
-        System.out.println();
-
-
-
-        Num c = product(in1, in2);
-        System.out.println("3. Product: " + c.toString());c.printList();
-        System.out.println();
-
-
-
-//        Num e = mod(x, y);
-//        System.out.println("5. Modulo: " + e.toString());e.printList();
-//        System.out.println();
-
-        /*int n = 5;
-        Num f = power(x, n);
-        System.out.println("6. Power: " + f.toString());f.printList();
-        System.out.println();
-
-        int g = x.compareTo(y);
-        System.out.println("7. Compare To: " + g);
-        System.out.println();
-
-        Num h = squareRoot(x);
-        System.out.println("8. Square Root: " + h.toString());h.printList();
-        System.out.println();
-
-        Num i = by2(x);
-        System.out.println("9. By 2: " + i.toString());i.printList();
-        System.out.println();
-
-        System.out.println("10. INfix");
-
-        System.out.println("11. POSTfix");
-        System.out.println();
-
-        System.out.println("12. To String:" + x.toString());
-        System.out.println();
-
-        System.out.println("13. Long Constructor");
-        System.out.println("14. String Constructor");
-        System.out.println("15. New Constructors");
-        System.out.println();
-
-        System.out.println("16. Printlist");
-        x.printList();
-        System.out.println();
-        System.out.println();
-
-        System.out.println("17. Num to Long Constructor");
-        System.out.println();
-
-        System.out.println("17. Trailing Zeros" + removeTrailingZeros(x.arr));
-        System.out.println();
-
-
-*/
-    }
 
     // Divide by 2, for using in binary search
     public static Num by2(Num a) {
@@ -481,7 +421,7 @@ public class Num implements Comparable<Num> {
                 // If the scanned character is an operator, pop two
                 // elements from operatorStack apply the operator
             else
-            if(c.equals("*") || c.equals("+") || c.equals("-") || c.equals("/") || c.equals("%") || c.equals("^"))
+            if (c.matches("[-+*/%^]"))
             {
                 Num val1 = operandStack.pop();
                 Num val2 = operandStack.pop();
@@ -533,7 +473,7 @@ public class Num implements Comparable<Num> {
 
             case "*":
             case "/":
-            case "%":    
+            case "%":
                 return 2;
 
             case "^":
@@ -545,7 +485,7 @@ public class Num implements Comparable<Num> {
     // Evaluate an expression in infix and return resulting number
     // Each string is one of: "*", "+", "-", "/", "%", "^", "(", ")", "0", or
     // a number: [1-9][0-9]*.  There is no unary minus operator.
-   public static Num evaluateInfix(String[] expr) {
+    public static Num evaluateInfix(String[] expr) {
 
         String[] result = new String[expr.length];
         Stack<String> operatorStack = new Stack<>();
@@ -554,11 +494,11 @@ public class Num implements Comparable<Num> {
         for (int i = 0; i<expr.length; ++i)
         {
             String c = expr[i];
-             if (c.equals("(")) {
-                 bracketCount++;
-                 operatorStack.push(c);
-             } else if (c.equals(")")) {
-                 bracketCount++;
+            if (c.equals("(")) {
+                bracketCount++;
+                operatorStack.push(c);
+            } else if (c.equals(")")) {
+                bracketCount++;
                 while (!operatorStack.isEmpty() && ! operatorStack.peek().equals("(")) {
                     result[index++] = operatorStack.pop();
 
@@ -575,9 +515,9 @@ public class Num implements Comparable<Num> {
                 operatorStack.push(c);
             }
             else
-             {
-                 result[index++] = c;
-             }
+            {
+                result[index++] = c;
+            }
 
         }
         while (!operatorStack.isEmpty())
@@ -588,7 +528,7 @@ public class Num implements Comparable<Num> {
         System.arraycopy(result,0,postfixArray, 0,result.length-bracketCount );
 
 
-       return evaluatePostfix(postfixArray);
+        return evaluatePostfix(postfixArray);
 
     }
 
@@ -600,17 +540,17 @@ public class Num implements Comparable<Num> {
 
     // Return number equal to "this" number, in base=newBase
     public Num convertBase(int newBase) {
-            int i = this.len - 1;
-            Num b=new Num(this.base,newBase);
-            Num temp =  new Num(this.arr[i],newBase);
-            while (i >0){
-                temp = add(product(temp,b),new Num(this.arr[i-1],newBase));
-                i--;
-            }
-            long[] resutArray = removeTrailingZeros(temp.arr);
-            temp.arr = resutArray;
-            temp.len = resutArray.length;
-            return temp;
+        int i = this.len - 1;
+        Num b=new Num(this.base,newBase);
+        Num temp =  new Num(this.arr[i],newBase);
+        while (i >0){
+            temp = add(product(temp,b),new Num(this.arr[i-1],newBase));
+            i--;
+        }
+        long[] resutArray = removeTrailingZeros(temp.arr);
+        temp.arr = resutArray;
+        temp.len = resutArray.length;
+        return temp;
     }
 
 
@@ -676,15 +616,15 @@ public class Num implements Comparable<Num> {
                 else
                 {
 
-                        k = i + 1;
+                    k = i + 1;
                     while( k < x.length && x[k] == 0) {
                         x[k] = base - 1;
                         k++;
                     }
                     x[k] -= 1;
-                    }
                 }
-                result[index] = diff;
+            }
+            result[index] = diff;
 
             index++;
             i++;
@@ -745,10 +685,88 @@ public class Num implements Comparable<Num> {
 
     }
 
+    public static void main(String[] args) {
+        Num x = new Num(9223372036854775807L);
+        Num y = new Num(1);
+
+        Num a = add(x, y);
+        System.out.println("1. Addition: " + a.toString());a.printList();
+        System.out.println();
+
+        Num b = subtract(x, y);
+        System.out.println("2. Subtraction: " + b.toString());b.printList();
+        System.out.println();
+
+        Num d = divide(x, y);
+        System.out.println("4. Division: " + d.toString());d.printList();
+        System.out.println();
+
+
+
+        Num c = product(x, y);
+        System.out.println("3. Product: " + c.toString());c.printList();
+        System.out.println();
+
+        Num e = mod(x, y);
+        System.out.println("5. Modulo: " + e.toString());e.printList();
+        System.out.println();
+
+        int n = 5;
+        Num f = power(x, n);
+        System.out.println("6. Power: " + f.toString());f.printList();
+        System.out.println();
+
+        int g = x.compareTo(y);
+        System.out.println("7. Compare To: " + g);
+        System.out.println();
+
+        Num h = squareRoot(x);
+        System.out.println("8. Square Root: " + h.toString());h.printList();
+        System.out.println();
+
+        Num i = by2(x);
+        System.out.println("9. By 2: " + i.toString());i.printList();
+        System.out.println();
+
+        System.out.println("10. INfix");
+
+        System.out.println("11. POSTfix");
+        System.out.println();
+
+        System.out.println("12. To String:" + x.toString());
+        System.out.println();
+
+        System.out.println("13. Long Constructor");
+        System.out.println("14. String Constructor");
+        System.out.println("15. New Constructors");
+        System.out.println();
+
+        System.out.println("16. Printlist");
+        x.printList();
+        System.out.println();
+        System.out.println();
+
+        System.out.println("17. Num to Long Constructor");
+        System.out.println();
+
+        System.out.println("17. Trailing Zeros" + removeTrailingZeros(x.arr));
+        System.out.println();
+
+
+    }
 
     //Extra Functions:
     public static long convertToLong(Num a)
     {
-        return 0;
+        long result = 0 ;
+        for (int i = 0; i < a.arr.length; i++)
+        {
+            result += a.arr[i] * Math.pow(a.base, i);
+        }
+
+        if(a.isNegative)
+            return -result;
+        else
+            return result;
     }
 }
