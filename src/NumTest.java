@@ -1429,6 +1429,85 @@ public class NumTest extends TestCase {
 
 
     }
+     @Test
+    public void testby2() {
+
+        Num a = new Num(10);
+        Num c = Num.by2(a);
+        Num ans = new Num(5);
+        Assert.assertArrayEquals(ans.arr,c.arr);
+
+        a = new Num(5);
+        c = Num.by2(a);
+        ans = new Num(2);
+        Assert.assertArrayEquals(ans.arr,c.arr);
+
+        a = new Num(2000);
+        c = Num.by2(a);
+        ans = new Num(1000);
+        Assert.assertArrayEquals(ans.arr,c.arr);
+
+
+        a = new Num(1000000000L);
+        c = Num.by2(a);
+        ans = new Num(500000000L);
+        Assert.assertArrayEquals(ans.arr,c.arr);
+
+
+        a = new Num(800000000000000L);
+        c = Num.by2(a);
+        ans = new Num(400000000000000L);
+        Assert.assertArrayEquals(ans.arr,c.arr);
+
+
+        a = new Num(-74);
+        c = Num.by2(a);
+        ans = new Num(-37);
+        Assert.assertArrayEquals(ans.arr,c.arr);
+
+
+        a = new Num(-50);
+        c = Num.by2(a);
+        ans = new Num(-25);
+        Assert.assertArrayEquals(ans.arr,c.arr);
+
+
+
+        a = new Num(-100);
+        c = Num.by2(a);
+        ans = new Num(-50);
+        Assert.assertArrayEquals(ans.arr,c.arr);
+
+        a = new Num(0);
+        c = Num.by2(a);
+        ans = new Num(0);
+        Assert.assertArrayEquals(ans.arr,c.arr);
+
+
+        a = new Num(-0);
+        c = Num.by2(a);
+        ans = new Num(0);
+        Assert.assertArrayEquals(ans.arr,c.arr);
+
+
+        //String Constructor
+
+        a = new Num("10");
+        c = Num.by2(a);
+        ans = new Num(5);
+        Assert.assertArrayEquals(ans.arr,c.arr);
+
+        a = new Num("50");
+        c = Num.by2(a);
+        ans = new Num("25");
+        Assert.assertArrayEquals(ans.arr,c.arr);
+
+        a = new Num("-0");
+        c = Num.by2(a);
+        ans = new Num("0");
+        Assert.assertArrayEquals(ans.arr,c.arr);
+
+    }
 /*
     @org.junit.jupiter.api.Test
     void squareRoot() {
