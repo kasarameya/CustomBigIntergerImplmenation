@@ -244,8 +244,12 @@ public class Num implements Comparable<Num> {
         Num p = power(product(a, a), n / 2);
         if (n % 2 == 0)
             return p;
-        else
-            return product(p, a);
+        else {
+            p = product(p, a);
+            if(a.isNegative)
+                p.isNegative = true;
+            return p;
+        }
     }
 
     // Use binary search to calculate a/b
@@ -448,7 +452,7 @@ public class Num implements Comparable<Num> {
                         break;
 
                     case "^":
-                        //operandStack.push(power(val2,val1));
+                        operandStack.push(power(val2,convertToLong(val1)));
                         break;
                 }
             }
