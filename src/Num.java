@@ -475,7 +475,13 @@ public class Num implements Comparable<Num> {
                 operandStack.push(n);
             }
         }
-        return operandStack.pop();
+        //return operandStack.pop();
+
+        Num a = operandStack.pop();
+        long result[] = a.arr;
+        a.arr = removeTrailingZeros(result);
+        return a;
+
     }
     static int Prec(String ch){
         switch(ch)

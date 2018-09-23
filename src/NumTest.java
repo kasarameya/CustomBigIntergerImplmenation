@@ -1,9 +1,6 @@
-import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 import org.junit.Assert;
 import org.junit.Test;
-
-import java.util.Arrays;
 
 
 public class NumTest extends TestCase {
@@ -1398,21 +1395,33 @@ public class NumTest extends TestCase {
         Assert.assertEquals(ans.toString(),a.toString());
 
 
-       /* String expr4[] = { "2", "5", "10", "^", "^"};
+/*
+        String expr4[] = { "2", "5", "10", "^", "^"};
         a = Num.evaluatePostfix(expr4);
 
         ans = new Num(1125899906842624L);
 
         Assert.assertArrayEquals(ans.arr, a.arr);
-
 */
+
+
         String expr5[] = { "2", "3", "5", "^", "^"};
         a = Num.evaluatePostfix(expr5);
 
-        ans = new Num(32768);
+        ans = new Num("14134776518227074636666380005943348126619871175004951664972849610340958208");
 
         Assert.assertArrayEquals(ans.arr, a.arr);
         Assert.assertEquals(ans.toString(),a.toString());
+
+
+        String expr6[] = {"2", "2", "2", "^", "^"};
+        a = Num.evaluatePostfix(expr6);
+
+        ans = new Num("16");
+
+        Assert.assertArrayEquals(ans.arr, a.arr);
+        Assert.assertEquals(ans.toString(), a.toString());
+
 
 
     }
