@@ -1421,6 +1421,14 @@ public class NumTest extends TestCase {
     public void testEvaluateInfix() {
 
     }
+
+    @Test
+    public void main() {
+    Num a = new Num(10);
+
+
+
+    }
 /*
     @org.junit.jupiter.api.Test
     void squareRoot() {

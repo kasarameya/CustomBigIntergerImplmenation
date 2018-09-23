@@ -347,7 +347,7 @@ public class Num implements Comparable<Num> {
     }
 
 
-    //UTILITY FUNCTIONS
+    //UTILITY FUNCTIONSN
     public int compareTo(Num other) {
         if(!this.isNegative && !other.isNegative)
         {
