@@ -1,3 +1,4 @@
+import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 import org.junit.Assert;
 import org.junit.Test;
@@ -1357,6 +1358,68 @@ public class NumTest extends TestCase {
         ans = new Num("0");
 
         Assert.assertArrayEquals(ans.arr,c.arr);Assert.assertEquals(ans.toString(),c.toString());
+    }
+    @Test
+    public void testEvaluatePostfix() {
+
+        String expr[] = { "100","200", "+", "2", "/", "5", "*", "7", "+"};
+        Num a = new Num();
+
+        a = Num.evaluatePostfix(expr);
+
+        Num ans = new Num(757);
+        Assert.assertArrayEquals(ans.arr, a.arr);
+        Assert.assertEquals(ans.toString(),a.toString());
+
+
+        String expr1[] = { "2","3", "1", "*", "+", "9", "-"};
+        a = Num.evaluatePostfix(expr1);
+
+        ans = new Num(-4);
+
+        Assert.assertArrayEquals(ans.arr, a.arr);
+        Assert.assertEquals(ans.toString(),a.toString());
+
+
+        String expr2[] = { "10","8", "*", "7", "/", "14", "-", "27", "+"};
+        a = Num.evaluatePostfix(expr2);
+
+        ans = new Num(24);
+
+        Assert.assertArrayEquals(ans.arr, a.arr);
+
+
+        String expr3[] = { "10","7", "4", "^", "*", "42", "4", "^", "*"};
+        a = Num.evaluatePostfix(expr3);
+
+        ans = new Num(74711820960L);
+
+        Assert.assertArrayEquals(ans.arr, a.arr);
+        Assert.assertEquals(ans.toString(),a.toString());
+
+
+       /* String expr4[] = { "2", "5", "10", "^", "^"};
+        a = Num.evaluatePostfix(expr4);
+
+        ans = new Num(1125899906842624L);
+
+        Assert.assertArrayEquals(ans.arr, a.arr);
+
+*/
+        String expr5[] = { "2", "3", "5", "^", "^"};
+        a = Num.evaluatePostfix(expr5);
+
+        ans = new Num(32768);
+
+        Assert.assertArrayEquals(ans.arr, a.arr);
+        Assert.assertEquals(ans.toString(),a.toString());
+
+
+    }
+
+    @Test
+    public void testEvaluateInfix() {
+
     }
 /*
     @org.junit.jupiter.api.Test
