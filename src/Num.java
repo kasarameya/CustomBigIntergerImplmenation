@@ -67,8 +67,8 @@ public class Num implements Comparable<Num> {
         }
 
         //this.arr = new long[(int) Math.pow(10, (Long.toString(number).length() + 1))];
-        this.arr = new long[Long.toString(number).length()];
-        //this.arr = new long[1000];
+        //this.arr = new long[Long.toString(number).length()];
+        this.arr = new long[1000];
         if (number == 0) {
             this.len = 1;
             return;
@@ -177,7 +177,7 @@ public class Num implements Comparable<Num> {
                 }
             }
             result = subhelper(p1, p2, result);
-        }else if(a.isNegative && b.isNegative){
+        } else if (a.isNegative && b.isNegative) {
             if (a.len > b.len) {
                 System.arraycopy(a.arr, 0, p1, 0, a.len);
                 System.arraycopy(b.arr, 0, p2, 0, b.len);
@@ -631,8 +631,11 @@ public class Num implements Comparable<Num> {
     }
 
     public static void main(String[] args) {
-        Num x = new Num(50);
-        Num y = new Num(-25);
+        Num x = new Num(15, 2);
+        Num k = x.convertBase(10);
+        k.printList();
+        System.out.println(k.toString());
+        Num y = new Num(10, 2);
 
         Num a = add(x, y);
         System.out.println("1. Addition: " + a.toString());a.printList();
@@ -706,10 +709,14 @@ public class Num implements Comparable<Num> {
         int i = 0, j = 0;
         int index = 0;
         long diff;
+
+        x = removeTrailingZeros(x);
+        y = removeTrailingZeros(y);
+
         while (i < x.length && j < y.length) {
             if (x[i] >= y[j]) {
                 diff = x[i] - y[j];
-                //result[index] = diff;
+                result[index++] = diff;
             } else {
                 int k = 0;
                 diff = (base + x[i]) - y[j];
@@ -724,9 +731,10 @@ public class Num implements Comparable<Num> {
                     }
                     x[k] -= 1;
                 }
+                result[index++] = diff;
             }
-            result[index] = diff;
-            index++;
+            //result[index] = diff;
+            //index++;
             i++;
             j++;
         }

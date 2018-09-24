@@ -13,7 +13,7 @@ public class NumTest extends TestCase {
     @Test
     public void testAdd() {
 
-        Num a = new Num(10);
+      /*  Num a = new Num(10);
         Num b = new Num(5);
 
         Num c = Num.add(a,b);
@@ -29,14 +29,17 @@ public class NumTest extends TestCase {
         String ansto = "15";
 
         Assert.assertEquals(ansto,c.toString());
+*/
+        Num a = new Num(2000);
+        Num b = new Num(3000);
 
-        a = new Num(2000);
-        b = new Num(3000);
-
-        c = Num.add(a,b);
-        ans = new Num(5000);
-
+        Num c = Num.add(a, b);
+        Num ans = new Num(5000);
+        c.printList();
+        System.out.println("-----------------");
+        System.out.println(c.toString());
         Assert.assertEquals(ans.toString(), c.toString());
+
 
 
         a = new Num(1000000000L);
@@ -55,6 +58,7 @@ public class NumTest extends TestCase {
         ans = new Num(1600000000000000L);
 
         Assert.assertEquals(ans.toString(), c.toString());
+
 
         a = new Num("9223372036854775807");
         b = new Num("1");
@@ -78,7 +82,7 @@ public class NumTest extends TestCase {
         c = Num.add(a,b);
         ans = new Num(25);
 
-        Assert.assertEquals(ans.toString(), c.toString());
+        Assert.assertEquals("25", c.toString());
 
         a = new Num(-50);
         b = new Num(25);
@@ -1363,7 +1367,7 @@ public class NumTest extends TestCase {
         a = Num.evaluatePostfix(expr);
 
         Num ans = new Num(757);
-        Assert.assertArrayEquals(ans.arr, a.arr);
+
         Assert.assertEquals(ans.toString(),a.toString());
 
 
@@ -1372,7 +1376,6 @@ public class NumTest extends TestCase {
 
         ans = new Num(-4);
 
-        Assert.assertArrayEquals(ans.arr, a.arr);
         Assert.assertEquals(ans.toString(),a.toString());
 
 
@@ -1381,7 +1384,7 @@ public class NumTest extends TestCase {
 
         ans = new Num(24);
 
-        Assert.assertArrayEquals(ans.arr, a.arr);
+        Assert.assertEquals(ans.toString(), a.toString());
 
 
         String expr3[] = { "10","7", "4", "^", "*", "42", "4", "^", "*"};
@@ -1389,7 +1392,6 @@ public class NumTest extends TestCase {
 
         ans = new Num(74711820960L);
 
-        Assert.assertArrayEquals(ans.arr, a.arr);
         Assert.assertEquals(ans.toString(),a.toString());
 
 
@@ -1408,7 +1410,6 @@ public class NumTest extends TestCase {
 
         ans = new Num("14134776518227074636666380005943348126619871175004951664972849610340958208");
 
-        Assert.assertArrayEquals(ans.arr, a.arr);
         Assert.assertEquals(ans.toString(),a.toString());
 
 
@@ -1417,7 +1418,6 @@ public class NumTest extends TestCase {
 
         ans = new Num("16");
 
-        Assert.assertArrayEquals(ans.arr, a.arr);
         Assert.assertEquals(ans.toString(), a.toString());
 
 
@@ -1443,59 +1443,58 @@ public class NumTest extends TestCase {
         Num a = new Num(10);
         Num c = Num.by2(a);
         Num ans = new Num(5);
-        Assert.assertArrayEquals(ans.arr,c.arr);
+        Assert.assertEquals(ans.toString(), c.toString());
 
         a = new Num(5);
         c = Num.by2(a);
         ans = new Num(2);
-        Assert.assertArrayEquals(ans.arr,c.arr);
+        Assert.assertEquals(ans.toString(), c.toString());
 
         a = new Num(2000);
         c = Num.by2(a);
         ans = new Num(1000);
-        Assert.assertArrayEquals(ans.arr,c.arr);
+        Assert.assertEquals(ans.toString(), c.toString());
 
 
         a = new Num(1000000000L);
         c = Num.by2(a);
         ans = new Num(500000000L);
-        Assert.assertArrayEquals(ans.arr,c.arr);
+        Assert.assertEquals(ans.toString(), c.toString());
 
 
         a = new Num(800000000000000L);
         c = Num.by2(a);
         ans = new Num(400000000000000L);
-        Assert.assertArrayEquals(ans.arr,c.arr);
+        Assert.assertEquals(ans.toString(), c.toString());
 
 
         a = new Num(-74);
         c = Num.by2(a);
         ans = new Num(-37);
-        Assert.assertArrayEquals(ans.arr,c.arr);
+        Assert.assertEquals(ans.toString(), c.toString());
 
 
         a = new Num(-50);
         c = Num.by2(a);
         ans = new Num(-25);
-        Assert.assertArrayEquals(ans.arr,c.arr);
-
+        Assert.assertEquals(ans.toString(), c.toString());
 
 
         a = new Num(-100);
         c = Num.by2(a);
         ans = new Num(-50);
-        Assert.assertArrayEquals(ans.arr,c.arr);
+        Assert.assertEquals(ans.toString(), c.toString());
 
         a = new Num(0);
         c = Num.by2(a);
         ans = new Num(0);
-        Assert.assertArrayEquals(ans.arr,c.arr);
+        Assert.assertEquals(ans.toString(), c.toString());
 
 
         a = new Num(-0);
         c = Num.by2(a);
         ans = new Num(0);
-        Assert.assertArrayEquals(ans.arr,c.arr);
+        Assert.assertEquals(ans.toString(), c.toString());
 
 
         //String Constructor
@@ -1503,17 +1502,17 @@ public class NumTest extends TestCase {
         a = new Num("10");
         c = Num.by2(a);
         ans = new Num(5);
-        Assert.assertArrayEquals(ans.arr,c.arr);
+        Assert.assertEquals(ans.toString(), c.toString());
 
         a = new Num("50");
         c = Num.by2(a);
         ans = new Num("25");
-        Assert.assertArrayEquals(ans.arr,c.arr);
+        Assert.assertEquals(ans.toString(), c.toString());
 
         a = new Num("-0");
         c = Num.by2(a);
         ans = new Num("0");
-        Assert.assertArrayEquals(ans.arr,c.arr);
+        Assert.assertEquals(ans.toString(), c.toString());
 
     }
 /*
