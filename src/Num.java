@@ -941,10 +941,13 @@ public class Num implements Comparable<Num> {
         z.len = this.arr.length;
 
         z = z.convertBase((int)defaultBase);
+        int lengthOfDigits = 0;
+        int lengthOfBase = 0;
+        
         for (int i = z.arr.length - 1; i >= 0; i--) {
 
-            int lengthOfDigits = String.valueOf(z.arr[i]).length();
-            int lengthOfBase = String.valueOf(defaultBase-1).length();
+            lengthOfDigits = String.valueOf(z.arr[i]).length();
+            lengthOfBase = String.valueOf(defaultBase-1).length();
 
             if(lengthOfDigits < lengthOfBase && i != z.arr.length - 1)
             {
