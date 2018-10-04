@@ -12,7 +12,7 @@ import java.util.Stack;
 
 public class Num implements Comparable<Num> {
 
-    static long defaultBase =10;  // Change as needed
+    static long defaultBase = 1000000000;  // Change as needed
     long base = defaultBase;  // Change as needed
     long[] arr;  // array to store arbitrarily large integers
     boolean isNegative;  // boolean flag to represent negative numbers
@@ -940,10 +940,22 @@ public class Num implements Comparable<Num> {
         z.base = this.base;
         z.len = this.arr.length;
 
-        z = z.convertBase(10);
+        z = z.convertBase((int)defaultBase);
         for (int i = z.arr.length - 1; i >= 0; i--) {
+
+            int lengthOfDigits = String.valueOf(z.arr[i]).length();
+            int lengthOfBase = String.valueOf(defaultBase-1).length();
+
+            if(lengthOfDigits < lengthOfBase && i != z.arr.length - 1)
+            {
+                for (int k = 0; k < lengthOfBase - lengthOfDigits; k++)
+                {
+                    resultBuiler.append("0");
+                }
+            }
             resultBuiler.append(z.arr[i]);
         }
+
         return resultBuiler.toString();
 
     }
