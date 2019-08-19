@@ -126,6 +126,7 @@ public class Num implements Comparable<Num> {
         long[] result = new long[Math.max(a.len,b.len)+1];
         long size =Math.max(b.len,a.len);
         if((a.isNegative && !b.isNegative) || (!a.isNegative && b.isNegative))
+        //Adds proper checks for length to prevent issues
         {
             if (a.len > b.len) {
                 x = a;
